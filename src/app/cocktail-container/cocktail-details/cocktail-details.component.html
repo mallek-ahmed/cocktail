@@ -1,16 +1,34 @@
 <div class="row">
-    <div class="col-4">
-      <img class="img-fluid" style="max-height: 150px;" src="https://img-3.journaldesfemmes.fr/feSoAKUQnt6Qzwy-BXNxpv4hUro=/750x/smart/8c86ef81e01a405cbeaf3a428927b3f6/recipe-jdf/10025184.jpg" alt="#">
-    </div>
-    <h3 class="col-8">{{cocktail.name}}</h3>
+  <div class="col-4">
+    <img
+      class="img-fluid"
+      style="max-height: 150px"
+      src="https://img-3.journaldesfemmes.fr/feSoAKUQnt6Qzwy-BXNxpv4hUro=/750x/smart/8c86ef81e01a405cbeaf3a428927b3f6/recipe-jdf/10025184.jpg"
+      alt="#"
+    />
   </div>
-  <hr>
-  <div class="row">
-    <p class="col-12">{{cocktail.desc}}</p>
-  </div>
-  <hr>
-  <div class="row">
-    <button type="button" class="btn btn-success">
-      Editer le cocktail
-    </button>
-  </div>
+  <h3 class="col-8">{{ cocktail.name }}</h3>
+</div>
+<hr />
+<div class="row">
+  <p class="col-12">{{ cocktail.desc }}</p>
+</div>
+<hr />
+<div class="row">
+  <ul class="list-group col-12">
+    <li
+      *ngFor="let ingredient of cocktail.ingredients"
+      class="list-group-item list-group-item-action "
+    >
+      {{ ingredient.name }}
+      <span class="badge badge-default badge-pill ml-auto">
+        {{ ingredient.quantity }}
+      </span>
+    </li>
+  </ul>
+</div>
+<hr />
+<div class="row">
+  <button type="button" class="btn btn-success">Editer le cocktail</button>
+  <button type="button" class="btn btn-secondery ml-auto" (click)="addPanier(cocktail.ingredients)">Ajoutez au panier</button>
+</div>
