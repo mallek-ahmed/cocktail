@@ -40,12 +40,10 @@ public cocktails: BehaviorSubject<Cocktail[]> =  new BehaviorSubject<Cocktail[]>
   ]
 );
 
-public cocktail: BehaviorSubject<Cocktail> =  new BehaviorSubject<Cocktail>(this.cocktails.value[0]);
-
 constructor() { }
 
-public selectCocktail(index: number): void{
-  this.cocktail.next(this.cocktails.value[index]);
+public getCocktail(index: number): Cocktail{
+  return this.cocktails.value[index];
 }
 
 }

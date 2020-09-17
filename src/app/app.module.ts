@@ -12,6 +12,7 @@ import { IngredientsListComponent } from './panier/ingredients-list/ingredients-
 import { AppRouting } from './app.routing';
 import { PanierService } from './shared/services/panier.service';
 import { CocktailService } from './shared/services/cocktail.service';
+import { CocktailEditComponent } from './cocktail-container/cocktail-edit/cocktail-edit.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CocktailService } from './shared/services/cocktail.service';
     CocktailContainerComponent,
     ActiveDirective,
     PanierComponent,
-    IngredientsListComponent
+    IngredientsListComponent,
+    CocktailEditComponent
   ],
   imports: [
     BrowserModule,

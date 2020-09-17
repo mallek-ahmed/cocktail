@@ -10,7 +10,7 @@ import { CocktailService } from '../../shared/services/cocktail.service';
 export class CocktailsListComponent implements OnInit {
   public cocktails: Cocktail[];
 
-  public activeCocktail: number = 0 ;
+//  public activeCocktail: number = 0 ;
 
   constructor(private cocktaiService: CocktailService) {}
 
@@ -20,8 +20,8 @@ export class CocktailsListComponent implements OnInit {
     });
   }
 
-  public selectCocktail(index: number){
-    this.activeCocktail = index ;
-    this.cocktaiService.selectCocktail(index);
+  active(): string{
+    return "active";
   }
+
 }
