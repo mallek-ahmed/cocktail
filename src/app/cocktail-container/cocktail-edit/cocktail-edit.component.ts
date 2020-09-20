@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { CocktailService } from '../../shared/services/cocktail.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Cocktail } from 'src/app/shared/models/cocktail.model';
 
 @Component({
@@ -15,7 +15,7 @@ export class CocktailEditComponent implements OnInit {
   public action: string;
   private cocktail: Cocktail;
 
-  constructor(private activatedRoute: ActivatedRoute, private cocktailService: CocktailService, private fb: FormBuilder) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private cocktailService: CocktailService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(
@@ -41,7 +41,8 @@ export class CocktailEditComponent implements OnInit {
   }
 
   public createCocktail(): void {
-    this.cocktailService.addCocktail(this.cocktailFormGroup.value);
+    const index = this.cocktailService.addCocktail(this.cocktailFormGroup.value);
+    this.goToItems(index);
   }
 
   public initForm(cocktail = { name: '', img: '', desc: '', ingredients: [] }): void {
@@ -63,5 +64,10 @@ export class CocktailEditComponent implements OnInit {
       desc: this.fb.control(cocktail.desc),
       ingredients: this.fb.array(cocktail.ingredients.map(ing => this.fb.group({ name: ing.name, quantity: ing.quantity })))
     });
+  }
+
+
+  private goToItems(index: number): void {
+    this.router.navigateByUrl('/cocktails/' + index);
   }
 }

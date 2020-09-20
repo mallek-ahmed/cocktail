@@ -46,10 +46,35 @@ export class CocktailService {
     return this.cocktails.value[index];
   }
 
-  public addCocktail(cocktail: Cocktail): void {
+  public addCocktail(cocktail: Cocktail): number {
     const cocktails = this.cocktails.value.slice();
-    cocktails.push(cocktail);
+    let index: number;
+    cocktails.forEach((cock, i) => {
+      if (cock.name === cocktail.name) {
+        index = i;
+      }
+    });
+    if (index) {
+      cocktails[index] = cocktail;
+    } else {
+      cocktails.push(cocktail);
+      index = cocktails.length - 1;
+    }
     this.cocktails.next(cocktails);
+    return index;
   }
+
+
+  // public editerCocktail(cocktail: Cocktail): void {
+  //   const cocktails = this.cocktails.value.slice();
+  //   let index: number;
+  //   cocktails.forEach((cock, i) => {
+  //     if (cock.name === cocktail.name) {
+  //       index = i;
+  //     }
+  //   });
+  //   cocktails[index] = cocktail;
+  //   this.cocktails.next(cocktails);
+  // }
 
 }
