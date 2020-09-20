@@ -15,15 +15,15 @@ export class CocktailEditComponent implements OnInit {
   public action: string;
   private cocktail: Cocktail;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private cocktailService: CocktailService, private fb: FormBuilder) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private cocktailService: CocktailService,
+              private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(
       (parametres: ParamMap) => {
         if (parametres.get('index')) {
           this.action = 'Modifier';
-          this.cocktail = this.cocktailService.getCocktail(Number(parametres.get('index')));
-          console.log(this.cocktail);
+          this.cocktailService.getCocktail(Number(parametres.get('index'))).subscribe((cocktail: Cocktail) => this.cocktail = cocktail);
         } else {
           this.action = 'Ajouter';
         }

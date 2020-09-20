@@ -1,66 +1,51 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Cocktail } from '../models/cocktail.model';
-import { Ingredient } from '../models/ingredient.model';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable()
 export class CocktailService {
-  public cocktails: BehaviorSubject<Cocktail[]> = new BehaviorSubject<Cocktail[]>(
-    [
-      new Cocktail(
-        'Mojito-1',
-        'http://anotherwhiskyformisterbukowski.com/wp-content/uploads/2016/09/mojito-1.jpg',
-        'Le mojito, prononcé en espagnol, est un cocktail à base de rhum, de citron vert et de feuilles de menthe fraîche, né à Cuba dans les années 1910.',
-        [
-          new Ingredient('ingredient 11', 1),
-          new Ingredient('ingredient 12', 2),
-          new Ingredient('ingredient 13', 3),
-        ]
-      ),
-      new Cocktail(
-        'Mojito-2',
-        'http://anotherwhiskyformisterbukowski.com/wp-content/uploads/2016/09/mojito-1.jpg',
-        'Le mojito, prononcé en espagnol, est un cocktail à base de rhum, de citron vert et de feuilles de menthe fraîche, né à Cuba dans les années 1910.',
-        [
-          new Ingredient('ingredient 21', 1),
-          new Ingredient('ingredient 22', 2),
-          new Ingredient('ingredient 23', 3),
-        ]
-      ),
-      new Cocktail(
-        'Mojito-3',
-        'http://anotherwhiskyformisterbukowski.com/wp-content/uploads/2016/09/mojito-1.jpg',
-        'Le mojito, prononcé en espagnol, est un cocktail à base de rhum, de citron vert et de feuilles de menthe fraîche, né à Cuba dans les années 1910.',
-        [
-          new Ingredient('ingredient 31', 1),
-          new Ingredient('ingredient 32', 2),
-          new Ingredient('ingredient 33', 3),
-        ]
-      ),
-    ]
-  );
+  public cocktails: BehaviorSubject<Cocktail[]> = new BehaviorSubject<Cocktail[]>(null);
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+    this.cocktailsInit();
+  }
 
-  public getCocktail(index: number): Cocktail {
-    return this.cocktails.value[index];
+  public getCocktail(index: number): Observable<Cocktail> {
+    return this.cocktails.pipe(
+      filter((cocktails: Cocktail[]) => cocktails !== null),
+      map((cocktails: Cocktail[]) => cocktails[index])
+    );
+    // return this.cocktails.value[index];
   }
 
   public addCocktail(cocktail: Cocktail): number {
-    const cocktails = this.cocktails.value.slice();
+    let cocktails: Cocktail[];
+    console.log(this.cocktails.value)
+    if (this.cocktails.value == null) {
+      console.log('a1');
+      cocktails = [];
+    } else {
+      console.log('a2');
+      cocktails = this.cocktails.value.slice();
+    }
+
     let index: number;
-    cocktails.forEach((cock, i) => {
-      if (cock.name === cocktail.name) {
-        index = i;
-      }
-    });
-    if (index) {
+    // cocktails.forEach((cock, i) => {
+    //   if (cock.name === cocktail.name) {
+    //     index = i;
+    //   }
+    // });
+    index = cocktails.map(c => c.name).indexOf(cocktail.name);
+    if (index >= 0) {
       cocktails[index] = cocktail;
     } else {
       cocktails.push(cocktail);
       index = cocktails.length - 1;
     }
     this.cocktails.next(cocktails);
+    this.http.put('https://cocktails-e7847.firebaseio.com/cocktails.json', cocktails).subscribe(res => console.log(res));
     return index;
   }
 
@@ -76,5 +61,11 @@ export class CocktailService {
   //   cocktails[index] = cocktail;
   //   this.cocktails.next(cocktails);
   // }
+
+  public cocktailsInit(): void {
+    this.http.get('https://cocktails-e7847.firebaseio.com/cocktails.json').subscribe((cocktails: Cocktail[]) => {
+      this.cocktails.next(cocktails);
+    });
+  }
 
 }

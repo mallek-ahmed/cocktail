@@ -25,7 +25,7 @@ export class CocktailDetailsComponent implements OnInit {
         if (params.index) {
           this.index = params.index;
         }
-        this.cocktail = this.cocktailService.getCocktail(params.index);
+        this.cocktailService.getCocktail(params.index).subscribe((cocktail:Cocktail)=> this.cocktail = cocktail);
       }
     );
   }
