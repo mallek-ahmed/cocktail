@@ -13,7 +13,7 @@ import { CocktailService } from '../../shared/services/cocktail.service';
 export class CocktailDetailsComponent implements OnInit {
   public cocktail: Cocktail;
   public index: number = 0;
-  constructor(private activatedRoute: ActivatedRoute  , private cocktailService: CocktailService, private panierServicec: PanierService) {}
+  constructor(private activatedRoute: ActivatedRoute, private cocktailService: CocktailService, private panierServicec: PanierService) { }
 
   public addPanier(ingredients: Ingredient[]): void {
     this.panierServicec.addIngredients(ingredients);
@@ -21,17 +21,17 @@ export class CocktailDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(
-      (params : Params) => {
+      (params: Params) => {
         if (params.index) {
-          this.index = params.index ;
+          this.index = params.index;
         }
         this.cocktail = this.cocktailService.getCocktail(params.index);
       }
     );
   }
 
-  getUrl(): string[]{
-    return [ '/cocktails',''+ this.index, 'edit'];
+  getUrl(): string[] {
+    return ['/cocktails', '' + this.index, 'edit'];
   }
 
 }
