@@ -6,7 +6,7 @@
         <hr>
 
         <a *ngFor="let cocktail of cocktails | filter:search ; let i = index"
-            class="list-group-item list-group-item-action" [routerLink]="i" [routerLinkActive]="active()">
+            class="list-group-item list-group-item-action" [routerLink]="getIndex(cocktail)" [routerLinkActive]="active()">
             {{cocktail.name}} </a>
     </div>
 </div>

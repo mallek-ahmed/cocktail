@@ -22,8 +22,12 @@ export class CocktailsListComponent implements OnInit {
     });
   }
 
+  public getIndex(cocktail: Cocktail): number {
+    return this.cocktails.map((c: Cocktail) => c.name).indexOf(cocktail.name);
+  }
+
   public active(): string {
-    return "active";
+    return 'active';
   }
 
 }

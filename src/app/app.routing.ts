@@ -12,7 +12,7 @@ const APP_ROUTE: Route[] = [
     children: [
       {
         path: '',
-        redirectTo: '0', 
+        redirectTo: '0',
         pathMatch: 'full'
       },
       {
